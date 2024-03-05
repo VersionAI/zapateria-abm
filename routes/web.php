@@ -38,9 +38,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('isAdmin')->group(function(){
-    Route::post('/addAdm',[AdminController::class,'AltaAdmin'])->name('AltaAdmin');
+    Route::get('/addAdm',[AdminController::class,'AltaAdmin'])->name('AltaAdmin');
+    Route::post('/storeAdm',[AdminController::class,'StoreAdmin'])->name('StoreAdmin');
     Route::get('/getProv',[AdminController::class,'ListarProvedores'])->name('ListarProvedores');
     Route::put('/setDisc',[AdminController::class,'AddDiscount'])->name('ModificarDescuento');
-    Route::post('/loadCSV',[AdminController::class,'LoadCSV'])->name('CargarCSV');
+    Route::get('/loadCSV',[AdminController::class,'LoadCSV'])->name('CargarCSV');
 });
+
 require __DIR__.'/auth.php';
