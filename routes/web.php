@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -23,16 +24,23 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('Home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
+Route::middleware('isAdmin')->group(function(){
+    Route::post('/addAdm',[AdminController::class,'AltaAdmin'])->name('AltaAdmin');
+    Route::get('/getProv',[AdminController::class,'ListarProvedores'])->name('ListarProvedores');
+    Route::put('/setDisc',[AdminController::class,'AddDiscount'])->name('ModificarDescuento');
+    Route::post('/loadCSV',[AdminController::class,'LoadCSV'])->name('CargarCSV');
+});
 require __DIR__.'/auth.php';

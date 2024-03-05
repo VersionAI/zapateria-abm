@@ -5,9 +5,10 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const user = usePage().props.auth.user
 </script>
 
 <template>
@@ -28,10 +29,20 @@ const showingNavigationDropdown = ref(false);
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">                              
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Inicio
                                 </NavLink>
+                                <NavLink :href="route('CargarCSV')" :active="route().current('CargarCSV')" v-if="user.isAdmin">
+                                    Cargar Datos
+                                </NavLink>
+                                <NavLink :href="route('AltaAdmin')" :active="route().current('AltaAdmin')" v-if="user.isAdmin">
+                                    Alta Administrador
+                                </NavLink>
+                                <NavLink :href="route('ListarProvedores')" :active="route().current('ListarProvedores')" v-if="user.isAdmin">
+                                    Listar Provedores
+                                </NavLink>
+                              
                             </div>
                         </div>
 
