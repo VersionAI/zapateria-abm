@@ -15,14 +15,14 @@ let props = defineProps({
 
 <template>
     <div class=" flex items-center justify-center flex-col">
-        <ul role="list" class="divide-y divide-gray-100 p-6 w-4/5 mx-32 gap-6">
+        <ul role="list" class="divide-y divide-gray-100 px-2 py-4 md:px-4 md:py-4 lg:px-6 lg:py-6 w-4/5 mx-32 gap-6">
 
-            <div class="flex justify-between items-center py-5 px-3 bg-slate-300">
-                <div class="text-xl font-bold leading-6 text-gray-900">Nombre Provedor</div>
-                <div class="text-xl font-bold leading-6 text-gray-900">Descuento Aplicado</div>
+            <div class="flex justify-between items-center text-lg sm:text-xl md:text-2xl px-2 py-4 md:px-4 md:py-4 lg:px-6 lg:py-6 bg-slate-300">
+                <div class=" font-bold leading-6 text-gray-900">Nombre Provedor</div>
+                <div class=" font-bold leading-6 text-gray-900">Descuento </div>
             </div>
             <li v-for="user in users" :key="user._id"
-                class="flex justify-between items-center   gap-x-6 py-5 px-3 bg-slate-100 rounded-lg m-2">
+                class="flex justify-between items-center   gap-x-6 px-2 py-4 md:px-4 md:py-4 lg:px-6 lg:py-6 bg-slate-100 rounded-lg m-2">
 
                 <div class="flex justify-between items-center w-full ">
                     <div class="text-xl font-bold leading-6 text-gray-900">{{ user.name }}</div>

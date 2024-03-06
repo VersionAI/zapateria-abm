@@ -9,11 +9,12 @@ import { useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
+import Swal from 'sweetalert2'
 
 const page = usePage()
 
 
-const form = useForm({   
+const form = useForm({
     name: '',
     email: '',
     password: '',
@@ -21,14 +22,23 @@ const form = useForm({
     isAdmin: true
 });
 
-const submit = () => {   
-    console.log(form) 
+const submit = () => {
+    console.log(form)
     form.post(route('StoreAdmin'), {
-        onFinish: () => {                       
-            form.reset('password', 'password_confirmation')        
+        onFinish: () => {
+            form.reset('password', 'password_confirmation'),
+                Swal.fire({
+                    title: "Administrador Creado!",
+                    text: "Los datos del nuevo administrador de cargaron correctamente",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#28eb5c",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                })
         }
     });
-    
+
 };
 </script>
 
@@ -44,7 +54,7 @@ const submit = () => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <form @submit.prevent="submit" class="p-6 flex-col justify-around items-center bg-slate-200 rounded-lg">
-                  
+
                     <div class="mt-4">
                         <InputLabel for="name" value="Nombre" />
 
@@ -61,7 +71,7 @@ const submit = () => {
                             autocomplete="username" />
 
                         <InputError class="mt-2" :message="form.errors.email" />
-                    </div>   
+                    </div>
                     <div class="mt-4">
                         <InputLabel for="password" value="Contraseña" />
 

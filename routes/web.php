@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +27,7 @@ Route::get('/', function () {
     ]);
 })->name('Home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [ProductoController::class,'index'])->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,6 +42,7 @@ Route::middleware('isAdmin')->group(function(){
     Route::get('/getProv',[AdminController::class,'ListarProvedores'])->name('ListarProvedores');
     Route::put('/setDisc',[AdminController::class,'AddDiscount'])->name('ModificarDescuento');
     Route::get('/loadCSV',[AdminController::class,'LoadCSV'])->name('CargarCSV');
+    Route::post('/storeCSV',[AdminController::class,'StoreCSV'])->name('GuardarCSV');
 });
 
 require __DIR__.'/auth.php';
