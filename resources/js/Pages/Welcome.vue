@@ -25,18 +25,18 @@ defineProps({
     <Head title="Bienvenido" />
     <GuestLayoutVue>
         
-            <div v-if="canLogin" class="text-3xl p-4 ">
+            <div v-if="canLogin" class="text-4xl p-4 ">
                 <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                    class="font-semibold text-gray-900 hover:text-slate-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                    class="font-semibold text-gray-900 hover:text-slate-400 focus:outline focus:outline-2 focus:rounded-sm ">
                 Bienvenido de vuelta {{ $page.props.auth.user.name }} </Link>
 
                 <template v-else>
                     <Link :href="route('login')"
-                        class="font-semibold text-gray-900 hover:text-slate-400 0 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                        class="font-semibold text-gray-900 hover:text-slate-400 0 focus:outline focus:outline-2 focus:rounded-sm ">
                     Iniciar Sesión</Link>
 
                     <Link v-if="canRegister" :href="route('register')"
-                        class="ms-4 font-semibold text-gray-900 hover:text-slate-400  focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                        class="ms-4 font-semibold text-gray-900 hover:text-slate-400  focus:outline focus:outline-2 focus:rounded-sm">
                     Registrarse</Link>
                 </template>
             </div>

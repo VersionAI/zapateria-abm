@@ -1,19 +1,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
 import UserTable from '@/Components/UserTable.vue';
 
 
 
 const page = usePage()
-const { provedores } = defineProps({ provedores: Array })
+const { provedores } = defineProps({ provedores: Array, search: String })
+
+
+
+
 
 
 </script>
@@ -32,7 +30,7 @@ const { provedores } = defineProps({ provedores: Array })
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-1 sm:p-2 lg:p-4 text-gray-900">
-                        <UserTable :users="provedores.data" :links="provedores.links" />
+                        <UserTable :users="provedores.data" :links="provedores.links" :query="search" />
                     </div>
                 </div>
             </div>

@@ -28,10 +28,13 @@ class AdminController extends Controller
 
         $user = User::create($val);
     }
-    public function ListarProvedores()
+    public function ListarProvedores(Request $request)
     {
         return Inertia::render('Admin/ListarProvedores', [
-            'provedores' => User::where('isAdmin', false)->paginate(10),
+            'provedores' => User::where('isAdmin', false)->when($request->input('search'), function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');               
+            })->paginate(10),
+            'query' => $request->only(['search']),
         ]);
     }
     public function AddDiscount(Request $request)

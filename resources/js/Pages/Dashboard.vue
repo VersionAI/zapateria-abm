@@ -1,9 +1,23 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import ThePaginator from '@/Components/ThePaginator.vue';
+import { ref, watch } from 'vue'
+import { debounce } from 'lodash'
 
-let props = defineProps({ productos: Array });
+let props = defineProps({ productos: Array, search:String });
+let search = ref(props.search);
+watch(search, debounce((value) => {
+    router.get(
+        route('dashboard'), { search: value }, {
+        preserveState: true,
+        replace: true,
+        preserveScroll: true,
+    })
+
+}))
+
 </script>
 
 <template>
@@ -12,23 +26,25 @@ let props = defineProps({ productos: Array });
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Bienvenido!</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Productos</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div
-                    class=" overflow-hidden flex flex-col justify-center items-center p-2">
-                    <div class="p-6 text-gray-900 flex flex-col  md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 " v-if="productos.data.length">
-                        <div  v-for="producto in productos.data"
+                <div class=" overflow-hidden flex flex-col justify-center items-center p-2">
+                    <div class="flex justify-center mt-4 p-4 rounded-lg gap-2">
+                        <input type="text" name="search" placeholder="Buscar producto..." class="w-96 rounded-lg " v-model="search">                       
+                    </div>
+                    <div class="p-6 text-gray-900 flex flex-col  md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 "
+                        v-if="productos.data.length">
+                        <div v-for="producto in productos.data"
                             class=" max-w-sm bg-white border flex flex-col justify-center items-center border-gray-200 rounded-lg shadow">
                             <a href="#">
                                 <img class="p-8 rounded-t-lg" width="100%" :src="producto.Imagen" alt="product image" />
                             </a>
                             <div class="px-6 pb-5 flex flex-col gap-2 w-full">
                                 <a href="#">
-                                    <h5
-                                        class="text-xl font-semibold tracking-tight flex gap-2 text-gray-900">
+                                    <h5 class="text-xl font-semibold tracking-tight flex gap-2 text-gray-900">
                                         {{ producto.Categoria }}
                                         {{ producto.OBS }}
                                         {{ producto.Color }}
@@ -38,7 +54,7 @@ let props = defineProps({ productos: Array });
                                 <div class="flex items-center justify-between">
                                     <div class="text-3xl font-bold text-gray-900">
                                         <div> $ {{ producto.Precio }}</div>
-                                        
+
                                     </div>
                                     <button href="#"
                                         class="text-white flex gap-2 justify-center items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
