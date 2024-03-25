@@ -16,7 +16,7 @@ class ProductoController extends Controller
                 $query->where('Categoria', 'like', '%' . $search . '%');
                 $query->orWhere('OBS', 'like', '%' . $search . '%');
                 $query->orWhere('Color', 'like', '%' . $search . '%');
-            })->paginate(5),
+            })->paginate(20),
             'query' => $request->only(['search']),
         ]);
     }

@@ -17,12 +17,11 @@ const { provedores } = defineProps({ provedores: Array, search: String })
 </script>
 
 <template>
-
     <Head title="Alta Administrador" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Lista Provedores</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Lista Clientes</h2>
         </template>
 
 
