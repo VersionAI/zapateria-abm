@@ -16,8 +16,13 @@ class ProductoController extends Controller
                 $query->where('Categoria', 'like', '%' . $search . '%');
                 $query->orWhere('OBS', 'like', '%' . $search . '%');
                 $query->orWhere('Color', 'like', '%' . $search . '%');
-            })->paginate(20),
+            })
+                ->when($request->input('selectedCategory'), function ($query, $selectedCategory) {
+                    $query->where('Categoria', 'like', '%' . $selectedCategory . '%');
+                })
+                ->paginate(20),
             'query' => $request->only(['search']),
+            'categorias' => Producto::groupBy('Categoria')->pluck('Categoria')->toArray()
         ]);
     }
 }

@@ -32,13 +32,21 @@ class AdminController extends Controller
     {
         return Inertia::render('Admin/ListarProvedores', [
             'provedores' => User::where('isAdmin', false)->when($request->input('search'), function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%');               
+                $query->where('name', 'like', '%' . $search . '%');
             })->paginate(10),
             'query' => $request->only(['search']),
         ]);
     }
-    public function AddDiscount(Request $request)
+    public function AddDiscount(Request $request, $id)
     {
+
+        $attributes = $request->validate([
+            'descuento' => ['required', 'numeric']
+        ]);
+        $client = User::find($id);
+
+        $client->Descuento = $request->input('descuento');
+        $client->save();
     }
 
     public function LoadCSV()
@@ -59,8 +67,8 @@ class AdminController extends Controller
         $bulkWrite = [];
 
         try {
-            foreach ($csv->getRecords() as $record) {               
-                
+            foreach ($csv->getRecords() as $record) {
+
                 $bulkWrite[] = [
                     'updateOne' => [
                         ['Articulo' => $record['Articulo']], // Filtro de búsqueda
@@ -69,17 +77,14 @@ class AdminController extends Controller
                     ]
                 ];
             }
-        
+
             // Realizar la operación bulkWrite
             Producto::raw(function ($collection) use ($bulkWrite) {
                 $collection->bulkWrite($bulkWrite);
             });
-
         } catch (\Throwable $th) {
             // Manejar la excepción si es necesario
             ddd($th);
         }
-
-        
     }
 }

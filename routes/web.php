@@ -27,22 +27,21 @@ Route::get('/', function () {
     ]);
 })->name('Home');
 
-Route::get('/dashboard', [ProductoController::class,'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [ProductoController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
 
-Route::middleware('isAdmin')->group(function(){
-    Route::get('/addAdm',[AdminController::class,'AltaAdmin'])->name('AltaAdmin');
-    Route::post('/storeAdm',[AdminController::class,'StoreAdmin'])->name('StoreAdmin');
-    Route::get('/getProv',[AdminController::class,'ListarProvedores'])->name('ListarProvedores');
-    Route::put('/setDisc',[AdminController::class,'AddDiscount'])->name('ModificarDescuento');
-    Route::get('/loadCSV',[AdminController::class,'LoadCSV'])->name('CargarCSV');
-    Route::post('/storeCSV',[AdminController::class,'StoreCSV'])->name('GuardarCSV');
+Route::middleware('isAdmin')->group(function () {
+    Route::get('/addAdm', [AdminController::class, 'AltaAdmin'])->name('AltaAdmin');
+    Route::post('/storeAdm', [AdminController::class, 'StoreAdmin'])->name('StoreAdmin');
+    Route::get('/getProv', [AdminController::class, 'ListarProvedores'])->name('ListarProvedores');
+    Route::put('/setDisc/{id}', [AdminController::class, 'AddDiscount'])->name('ModificarDescuento');
+    Route::get('/loadCSV', [AdminController::class, 'LoadCSV'])->name('CargarCSV');
+    Route::post('/storeCSV', [AdminController::class, 'StoreCSV'])->name('GuardarCSV');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
