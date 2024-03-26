@@ -1,11 +1,12 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import ThePaginator from "@/Components/ThePaginator.vue";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { debounce } from "lodash";
 
+const user = usePage().props.auth.user;
 let props = defineProps({
   productos: Array,
   search: String,
@@ -14,6 +15,14 @@ let props = defineProps({
 let search = ref(props.search);
 const selectedCategory = ref("");
 
+const precioDiscount = (precio) => {
+  if (user.Descuento > 0) {
+    let result = precio - (precio * user.Descuento) / 100;
+    return result.toFixed(2);
+  }
+
+  return item.precio;
+};
 
 watch(
   search,
@@ -29,7 +38,6 @@ watch(
     );
   })
 );
-
 
 watch(
   selectedCategory,
@@ -52,8 +60,13 @@ watch(
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2
+        class="font-semibold text-xl text-gray-800 leading-tight flex justify-between"
+      >
         Productos
+        <div :v-if="user.Descuento > 0">
+          Tenes un descuento del {{ user.Descuento }} % !
+        </div>
       </h2>
     </template>
 
@@ -74,6 +87,7 @@ watch(
             <select
               id="categorySelect"
               v-model="selectedCategory"
+              class="rounded-lg"
               @change="filterProducts"
             >
               <option value="">Todas las categorías</option>
@@ -128,7 +142,11 @@ watch(
                 </a>
                 <div class="flex items-center justify-between">
                   <div class="text-3xl font-bold text-gray-900">
-                    <div>${{ producto.Precio }}</div>
+                    <div v-if="user.Descuento > 0">
+                      <div>${{ precioDiscount(producto.Precio) }}</div>
+                      <div class="line-through">${{ producto.Precio }}</div>
+                    </div>
+                    <div v-else>${{ producto.Precio }}</div>
                   </div>
                   <!-- <button href="#"
                                         class="text-white flex gap-2 justify-center items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
